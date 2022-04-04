@@ -39,16 +39,32 @@ router.post('/api/locations', async (req, res) => {
   res.status(200).json(newLocation);
 });
 
+// router.get('/api/locations/:id', async (req, res) => {
+//   let userData = await Location.findByPk(req.params.id,
+//     {
+//       include: [{
+//         model: Location, through: {
+//           attributes: []
+//         }
+//       }]
+//     });
+//   res.json({ userData });
+// });
+
 router.get('/api/locations/:id', async (req, res) => {
-  let userData = await Location.findByPk(req.params.id,
+  const locationData = await Location.findByPk(
+    req.params.id,
     {
       include: [{
-        model: Location, through: {
+        model: Traveller,
+        through: {
           attributes: []
         }
       }]
-    });
-  res.json({ userData });
+    }
+  );
+
+  res.json(locationData);
 });
 
 router.delete('/api/locations/:id', async (req, res) => {
