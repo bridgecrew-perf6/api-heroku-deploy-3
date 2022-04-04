@@ -12,7 +12,10 @@ router.post('/api/travellers', async (req, res) => {
 });
 
 router.get('/api/travellers/:id', async (req, res) => {
-  let userData = await Traveller.findByPk(req.params.id)
+  let userData = await Traveller.findByPk(req.params.id,
+    {
+      include: [{ model: Location, through: Trip }]
+    });
   res.json({ userData });
 });
 
@@ -37,7 +40,14 @@ router.post('/api/locations', async (req, res) => {
 });
 
 router.get('/api/locations/:id', async (req, res) => {
-  let userData = await Location.findByPk(req.params.id)
+  let userData = await Location.findByPk(req.params.id,
+    {
+      include: [{
+        model: Location, through: {
+          attributes: []
+        }
+      }]
+    });
   res.json({ userData });
 });
 
